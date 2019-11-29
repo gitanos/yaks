@@ -1,4 +1,4 @@
-# Yaks Assignment: YAK-1
+# Yaks Assignment: YAK-3
 
 # Installation
 
@@ -24,10 +24,23 @@ This will instantiate a server running on localhost:5000.
 You can now make an HTTP request to the server: 
 
 ```
+curl -X GET http://127.0.0.1:5000/yak-shop/herd/T
+```
+or 
+
+```
+curl -X GET http://127.0.0.1:5000/yak-shop/herd/T
+```
+Output should be with status code 200 and a jsonified output is passed. 
+
+
+
+This expects that 'load.xml' is a file in your current dir,
+otherwise you should first load your herd and then make the GET request.
+
+Like in a previous user story:
+```
 curl -X POST -d @herd.xml -H 'Content-Type: text/xml' http://localhost:5000/yak-shop/load
 ```
-(this supposes that 'herd.xml' is a file in your current dir)
 
-Output should be with status code 205. 
-HTTP Status Code 205 will overwrite the load.xml file in your repo. 
 

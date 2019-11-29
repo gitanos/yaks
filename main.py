@@ -23,31 +23,28 @@ def organize_data_yaks(root_xml):
     return yaks_list
 
 
-if __name__ == '__main__':
+def run(days):
 
-    file_input = input("Enter file name as <file_name.xml>: ")
-
+    file_input = 'load.xml'
     if os.path.isfile(file_input):
         file_in = file_input #'herd.xml'
     else:
         print('File not found! Try again')
         sys.exit(1)
 
-    user_input = input("Enter days: ")
-
-    try:
-        val = int(user_input)
-        print("Yes input string is an Integer.")
-        print("Input number value is: ", val)
-    except ValueError:
-        print("That's not an int!")
-        sys.exit(1)
-
     root = ET.parse(file_in).getroot()
-
     yaks_list = organize_data_yaks(root)
 
     herd = Herd(yaks_list)
-    herd.get_stock(val)
+    data = herd.get_stock(days)
+    return data
 
 
+def get_stock_info(days):
+    data = run(days)
+    return {'milk': data['milk'], 'skins': data['skins']}
+
+
+def get_herd_info(days):
+    data = run(days)
+    return {'herd': data['herd']}

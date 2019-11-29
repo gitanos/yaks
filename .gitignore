@@ -7,8 +7,6 @@ __pycache__/
 # C extensions
 *.so
 
-# XML files
-load.xml
 
 # Distribution / packaging
 .Python

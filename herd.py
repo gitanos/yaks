@@ -12,15 +12,20 @@ class Herd:
         return self._yaks[position]
 
     def get_stock(self, T):
-        print('Herd: ')
 
+        tot_herd = []
         tot_milk = 0
         tot_wool = 0
         for yak in self._yaks:
-            m, w = yak(T)
+            m, w, n, a, s = yak(T)
             tot_milk += m
             tot_wool += w
+            tot_herd.append({"name": n, "age": a, "age-last-shaved": s})
 
-        print('In stock: ')
-        print('    {0:0.3f} liters of milk'.format(tot_milk))
-        print('    {} skins of wool'.format(tot_wool))
+        stock_dict = {
+            "milk": tot_milk,
+            "skins": tot_wool,
+            "herd": tot_herd
+        }
+
+        return stock_dict

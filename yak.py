@@ -9,6 +9,7 @@ class Yak():
         self.milk = 0
         self.wool = 0
         self.next_shave = 0
+        self.last_shave = None
 
     def __call__(self, T):
 
@@ -25,18 +26,22 @@ class Yak():
                     shave_today = int(self.next_shave) == int(t)
                     if shave_today:
                         self.wool += 1
+                        self.last_shave = self.age_yrs
 
-                # TODO: check correct position
                 self.next_shave = self.get_wool_day(self.age_days)
 
                 self.update_age()
 
         print('    Yak {0}, {1:0.2f} years old'.format(self.name, self.age_yrs))
 
-        return (self.milk, self.wool)
+        return (self.milk, self.wool, self.name, self.format_age(self.age_yrs), self.format_age(self.last_shave))
 
     def update_age(self):
         self.age_yrs += 0.01
+
+    @staticmethod
+    def format_age(num):
+        return float('{0:0.2f}'.format(num))
 
     @staticmethod
     def get_milk_per_day(days):
