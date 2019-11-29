@@ -1,11 +1,12 @@
 import json
 import xml.etree.ElementTree as ET
 
-from flask import request, Response, jsonify
-from flask_restful import Resource, abort
+from flask import request, Response
+from flask_restful import Resource, abort, reqparse
 
 from main import get_stock_info, get_herd_info
 
+parser = reqparse.RequestParser()
 
 class Load(Resource):
     def post(self):
@@ -56,3 +57,33 @@ class HerdT(Resource):
         output = json.dumps(info_herd, indent=4)
 
         return Response(output, 200)
+
+
+class Order(Resource):
+    def post(self, T):
+
+        parser.add_argument('order', type=dict)
+        data = parser.parse_args()
+
+        milk_ord = float(data['order']['milk'])
+        wool_ord = float(data['order']['skins'])
+        #print('JSON', request.get_json(force=True))
+
+        try:
+            # get stock info
+            instock = get_stock_info(days=T)
+        except Exception as e:
+            print(str(e))
+            abort(400)
+
+        mis = instock['milk']
+        wis = instock['skins']
+        if mis >= milk_ord and wis >= wool_ord:
+            return Response(json.dumps(data['order']), 201)
+        elif mis < milk_ord and wis >= wool_ord:
+            return Response(json.dumps({'skins': wool_ord}), 206)
+        elif mis >= milk_ord and wis < wool_ord:
+            return Response(json.dumps({'milk': milk_ord}), 206)
+        else:
+            return Response('Not in stock', 404)
+

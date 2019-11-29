@@ -37,3 +37,4 @@ import endpoints
 api.add_resource(endpoints.Load, '/load')
 api.add_resource(endpoints.StockT, '/stock/<int:T>')
 api.add_resource(endpoints.HerdT, '/herd/<int:T>')
+api.add_resource(endpoints.Order, '/order/<int:T>')
